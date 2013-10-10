@@ -2,8 +2,8 @@
 #define folders and files
 musicFolder="/home/florin/Musik"
 playlistFolder="Wiedergabelisten"
-fileArray=("Bessere Hälfte.m3u")
-# "Wiedergabelisten/90s.m3u")
+fileArray=("Bessere Hälfte.m3u" "Disco-Mix.m3u")
+# "90s.m3u")
 
 # define virtual folder which will be filles with symlinks to all used files
 virtualFolder="/home/florin/virtual/Musik"
@@ -26,10 +26,11 @@ do
     if [ -f "$line" ]
     then
     	# create symlink
-      ln -s "$line" "$virtualFolder"
+      # Todo(fg): Check if file already existing
+      ln -f "$line" "$virtualFolder"
     else
       # error
-    	echo "the file $line does not exist"
+    	echo "The file $line does not exist"
     fi
   done
    #(IFS=$'\n'; ln -sf $(awk '((NR % 2) != 0 && NR > 1) {print "" $0}' "$musicFolder/$i") $virtualFolder)
