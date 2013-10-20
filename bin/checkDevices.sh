@@ -20,25 +20,25 @@ do
 	device=${devices[$i]}
 	name=${names[$i]}
 	if ssh "$device" true > /dev/null 2>&1; then
-  	echo -n "$name is online, was ${previousFileState[$i]}"
-  	currentFileState[$i]="online"
+  	echo -n "$name on/${previousFileState[$i]}"
+  	currentFileState[$i]="on"
 	else
 		# ssh not working, try ping
 		# get IP of server
 		ip=$(ssh -v "$device" true 2>&1 | egrep -o "^debug1: Connecting to ([1-9]{1,3}\.){3}[1-9]{1,3}" | egrep -om 1 "([1-9]{1,3}\.){3}[1-9]{1,3}");
 		#echo "Trying to ping $ip"
 		if ping -c 1 $ip > /dev/null; then
-			echo -n "$name is online, was ${previousFileState[$i]}"
-			currentFileState[$i]="online"
+			echo -n "$name on/${previousFileState[$i]}"
+			currentFileState[$i]="on"
 		else
-			echo -n "$name is offline, was ${previousFileState[$i]}"
-			currentFileState[$i]="offline"
+			echo -n "$name off/${previousFileState[$i]}"
+			currentFileState[$i]="off"
 		fi
 	fi
 	if [ "${currentFileState[$i]}" != "${previousFileState[$i]}" ]; then
-		echo ", status changed."
+		echo ", changed"
 	else
-		echo ", status unchanged."
+		echo ", unchanged"
 	fi
 done
 
