@@ -4,7 +4,7 @@ tmpFile="/home/florin/bin/otr_happyHour_new.txt"
 
 cat $dataFile | while read line; do
    /bin/echo "Downloading $line"
-   /usr/bin/aria2c $line -d /tmp -m 0 --retry-wait=30 --auto-file-renaming=false --on-download-complete= >/dev/null
+   /usr/bin/aria2c $line -d /media/hdd/aria2 -m 0 --retry-wait=30 --auto-file-renaming=false --on-download-complete= >/dev/null
    download=$?
    case $download in
    	0)
@@ -23,6 +23,9 @@ cat $dataFile | while read line; do
         ;;
     13)
 				echo "File already exists."
+				grep -v "$line" $dataFile > $tmpFile
+                                /bin/rm $dataFile
+                                mv $tmpFile $dataFile
 				;;
     18)
      		echo "Error: aria2 could not create directory."
